@@ -10,11 +10,35 @@ app.set('view engine', 'ejs');
 
 const campgrounds = [{
   name: 'camp1',
-  image: 'https://pixabay.com/get/e837b1072af4003ed1584d05fb1d4e97e07ee3d21cac104496f3c079aeedbdb0_340.jpg',
+  image: 'https://images.pexels.com/photos/699558/pexels-photo-699558.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260',
 },
 {
   name: 'camp2',
-  image: 'https://pixabay.com/get/e834b5062cf4033ed1584d05fb1d4e97e07ee3d21cac104496f3c079aeedbdb0_340.jpg',
+  image: 'https://images.pexels.com/photos/699558/pexels-photo-699558.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260',
+},
+{
+  name: 'camp3',
+  image: 'https://farm3.staticflickr.com/2259/2182093741_164dc44a24.jpg',
+},
+{
+  name: 'camp1',
+  image: 'https://images.pexels.com/photos/699558/pexels-photo-699558.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260',
+},
+{
+  name: 'camp2',
+  image: 'https://images.pexels.com/photos/699558/pexels-photo-699558.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260',
+},
+{
+  name: 'camp3',
+  image: 'https://farm3.staticflickr.com/2259/2182093741_164dc44a24.jpg',
+},
+{
+  name: 'camp1',
+  image: 'https://images.pexels.com/photos/699558/pexels-photo-699558.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260',
+},
+{
+  name: 'camp2',
+  image: 'https://images.pexels.com/photos/699558/pexels-photo-699558.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260',
 },
 {
   name: 'camp3',
