@@ -52,7 +52,11 @@ app.post('/campgrounds', (req, res) => {
   const name = req.body.name;
   const image = req.body.image;
   const desc = req.body.description;
-  const newCampground = { name, image, description:desc };
+  const newCampground = { 
+    name,
+    image,
+    description:desc
+  };
   
   campgroundList.create(newCampground,(err,newCampground)=>{
     if(err){
