@@ -4,9 +4,14 @@ const app = express();
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 // Add Models
-const campgroundList = require('./models/campgroundModel');
+const campgroundList = require('./models/campground');
+const seedDB = require('./seeds');
+seedDB();
 
 mongoose.connect("mongodb://localhost:27017/camp_ground", { useNewUrlParser: true });
+mongoose.set('useNewUrlParser', true);
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 
