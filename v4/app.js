@@ -39,14 +39,14 @@ app.get('/campgrounds', (req, res) => {
             console.log(err);
         }
         else {
-            res.render('index', { campgrounds: listcampground });
+            res.render("campground/index", { campgrounds: listcampground });
         }
     });
 });
 
 // NEW Route
 app.get('/campgrounds/new', (req, res) => {
-    res.render('new');
+    res.render("campground/new");
 });
 
 // CREATE Route
@@ -80,10 +80,27 @@ app.get('/campgrounds/:id', (req, res) => {
         }
         else {
             //console.log(result);
-            res.render('show', { campground: result });
+            res.render("campground/show", { campground: result });
         }
     });
 });
+
+//=======================
+//    COMMENT ROUTE
+//=======================
+
+// NEW Route
+app.get("/campgrounds/:id/comments/new", (req,res)=>{
+    campgroundList.findOne({_id:req.params.id},(err,campground)=>{
+        if(err){
+            console.log(err);
+        }else{
+            //console.log(campground);
+            res.render("comment/new",{campground:campground});
+        }
+    })
+});
+
 
 app.listen(process.env.PORT, process.env.IP, () => {
     console.log('YelpCamp Server has Start at https://mypjbootcamp-mythk.c9users.io/ !!');
