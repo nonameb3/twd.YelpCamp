@@ -3,13 +3,14 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+
 // Add Models
 const campgroundList = require('./models/campground');
 const seedDB = require('./seeds');
 seedDB();
 
-mongoose.connect("mongodb://localhost:27017/camp_ground", { useNewUrlParser: true });
-mongoose.set('useNewUrlParser', true);
+// Set MongoDB
+mongoose.connect("mongodb://localhost:27017/yelp_camp_v3",{ useNewUrlParser: true });
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -28,53 +29,59 @@ app.set('view engine', 'ejs');
 // })
 
 app.get('/', (req, res) => {
-  res.render('landing');
+    res.render('landing');
 });
 
 app.get('/campgrounds', (req, res) => {
-  campgroundList.find((err,listcampground)=>{
-    if(err){
-      console.log(err);
-    } else{
-      res.render('index',{campgrounds:listcampground});
-    }
-  });
+    campgroundList.find((err, listcampground) => {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            res.render('index', { campgrounds: listcampground });
+        }
+    });
 });
 
 app.get('/campgrounds/new', (req, res) => {
-  res.render('new');
+    res.render('new');
 });
 
 app.post('/campgrounds', (req, res) => {
-  const name = req.body.name;
-  const image = req.body.image;
-  const desc = req.body.description;
-  const newCampground = { 
-    name,
-    image,
-    description:desc
-  };
-  
-  campgroundList.create(newCampground,(err,newCampground)=>{
-    if(err){
-      console.log(err);
-    } else{
-      res.redirect('/campgrounds');
-    }
-  });
+    const name = req.body.name;
+    const image = req.body.image;
+    const desc = req.body.description;
+    const newCampground = {
+        name,
+        image,
+        description: desc
+    };
+
+    campgroundList.create(newCampground, (err, newCampground) => {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            res.redirect('/campgrounds');
+        }
+    });
 });
 
-app.get('/campgrounds/:id',(req,res)=>{
-  const _id = req.params.id;
-  campgroundList.findById(_id,(err,result)=>{
-    if(err){
-      console.log(err);
-    }else{
-      res.render('show',{campground:result});
-    }
-  });
+// SHOW route - show more infomation.
+app.get('/campgrounds/:id', (req, res) => {
+    const _id = req.params.id;
+    // campgroundList.findById(_id).populate("comments").exec(function(err, result) {
+    campgroundList.findOne({_id:_id}).populate("comments").exec(function(err, result) {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            //console.log(result);
+            res.render('show', { campground: result });
+        }
+    });
 });
 
 app.listen(process.env.PORT, process.env.IP, () => {
-  console.log('YelpCamp Server has Start at https://mypjbootcamp-mythk.c9users.io/ !!');
+    console.log('YelpCamp Server has Start at https://mypjbootcamp-mythk.c9users.io/ !!');
 });

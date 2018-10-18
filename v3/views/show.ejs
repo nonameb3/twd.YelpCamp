@@ -9,6 +9,11 @@
     <p> 
         <%=campground.description%> 
     </p>
+    <p>
+        <% campground.comments.forEach(function(comment){ %>
+                <p> <%= comment.text %> - by <strong> <%= comment.author %> </strong></p>
+        <% }); %>
+    </p>
 
 
 

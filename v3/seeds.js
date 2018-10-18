@@ -26,8 +26,8 @@ function SeedDB(){
         if(err){
             console.log(err);
         }else{
-            console.log("Delete DB");
-            
+            console.log("Delete Campground");
+
             // Add new Campground data
             data.forEach((seed)=>{
                 Campground.create(seed,(err,campground)=>{
@@ -44,14 +44,9 @@ function SeedDB(){
                             if(err){
                                 console.log(err);
                             }else{
-                                campground.comment.push(comment);
-                                campground.save((err,reslut)=>{
-                                    if(err){
-                                        console.log(err);
-                                    }else{
-                                        console.log("add comment");
-                                    }
-                                });
+                                campground.comments.push(comment);
+                                campground.save();
+                                console.log("comment added.");
                             }
                         });
                     }
