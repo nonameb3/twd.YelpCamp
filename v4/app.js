@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 
 // Add Models
 const campgroundList = require('./models/campground');
+const Comments = require("./models/comment");
 const seedDB = require('./seeds');
 seedDB();
 
@@ -98,9 +99,28 @@ app.get("/campgrounds/:id/comments/new", (req,res)=>{
             //console.log(campground);
             res.render("comment/new",{campground:campground});
         }
-    })
+    });
 });
 
+// CREATE Route
+app.post("/campgrounds/:id/comments",(req,res)=>{
+    campgroundList.findOne({_id:req.params.id},(err,campground)=>{
+        if(err){
+            console.log(err);
+            res.redirect("/campgrounds");
+        }else{
+            Comments.create(req.body.comment,(err,comment)=>{
+                if(err){
+                    console.log(err);
+                }else{
+                    campground.comments.push(comment);
+                    campground.save();
+                    res.redirect("/campgrounds/"+campground._id);
+                }
+            });
+        }
+    });
+});
 
 app.listen(process.env.PORT, process.env.IP, () => {
     console.log('YelpCamp Server has Start at https://mypjbootcamp-mythk.c9users.io/ !!');
