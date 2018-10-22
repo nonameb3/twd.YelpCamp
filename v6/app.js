@@ -1,17 +1,20 @@
 // Add System
-const express = require('express');
-const app = express();
-const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
+const   express = require('express'),
+        app = express(),
+        bodyParser = require('body-parser'),
+        mongoose = require('mongoose'),
+        passport = require('passport'),
+        LocalStrategy = require('passport-local');
 
 // Add Models
-const campgroundList = require('./models/campground');
-const Comments = require("./models/comment");
+const   campgroundList = require('./models/campground'),
+        Comments = require("./models/comment"),
+        User = require('./models/user');
 const seedDB = require('./seeds');
 seedDB();
 
 // Set MongoDB
-mongoose.connect("mongodb://localhost:27017/yelp_camp_v5",{ useNewUrlParser: true });
+mongoose.connect("mongodb://localhost:27017/yelp_camp_v6",{ useNewUrlParser: true });
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 app.use(bodyParser.urlencoded({ extended: true }));
