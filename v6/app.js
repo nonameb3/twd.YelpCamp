@@ -136,10 +136,12 @@ app.post("/campgrounds/:id/comments",(req,res)=>{
 //    AUTH ROUTE
 //=======================
 
+// show register page
 app.get('/register',(req,res)=>{
    res.render('register'); 
 });
 
+// register logic
 app.post('/register',(req,res)=>{
    const _user = new User({username:req.body.username});
    User.register(_user,req.body.password,(err,user)=>{
@@ -153,6 +155,17 @@ app.post('/register',(req,res)=>{
       }
    });
 });
+
+// show login page
+app.get('/login',(req,res)=>{
+    res.render('login');
+});
+
+// login logic
+app.post('/login',passport.authenticate('local',{
+    successRedirect:'/campgrounds',
+    failureRedirect:'/login'
+}),(req,res)=>{});
 
 app.listen(process.env.PORT, process.env.IP, () => {
     console.log('YelpCamp Server has Start at https://mypjbootcamp-mythk.c9users.io/ !!');
