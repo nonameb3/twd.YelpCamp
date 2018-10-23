@@ -35,6 +35,12 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+// User Pass to any page Config
+app.use(function(req,res,next){
+    res.locals.currentUser = req.user;
+    next();
+});
+
 //================
 //      ROUTE
 //================
@@ -50,7 +56,7 @@ app.get('/campgrounds', (req, res) => {
             console.log(err);
         }
         else {
-            res.render("campground/index", { campgrounds: listcampground });
+            res.render("campground/index", { campgrounds: listcampground , currentUser:req.user});
         }
     });
 });
