@@ -101,7 +101,7 @@ app.get('/campgrounds/:id', (req, res) => {
 //=======================
 
 // NEW Route
-app.get("/campgrounds/:id/comments/new", (req,res)=>{
+app.get("/campgrounds/:id/comments/new",isLoggedIn, (req,res)=>{
     campgroundList.findOne({_id:req.params.id},(err,campground)=>{
         if(err){
             console.log(err);
@@ -113,7 +113,7 @@ app.get("/campgrounds/:id/comments/new", (req,res)=>{
 });
 
 // CREATE Route
-app.post("/campgrounds/:id/comments",(req,res)=>{
+app.post("/campgrounds/:id/comments",isLoggedIn,(req,res)=>{
     campgroundList.findOne({_id:req.params.id},(err,campground)=>{
         if(err){
             console.log(err);
@@ -166,6 +166,24 @@ app.post('/login',passport.authenticate('local',{
     successRedirect:'/campgrounds',
     failureRedirect:'/login'
 }),(req,res)=>{});
+
+// logout route
+app.get('/logout',(req,res)=>{
+   req.logout();
+   res.redirect('/campgrounds');
+});
+
+// check auth
+function isLoggedIn(req,res,next){
+    if(req.isAuthenticated()){
+        return next();
+    }
+    res.redirect('/login');
+}
+
+//==============
+//  start port
+//==============
 
 app.listen(process.env.PORT, process.env.IP, () => {
     console.log('YelpCamp Server has Start at https://mypjbootcamp-mythk.c9users.io/ !!');
