@@ -13,7 +13,7 @@ const   campgroundList = require('./models/campground'),
 const seedDB = require('./seeds');
 seedDB();
 
-// Set MongoDB
+// MongoDB Config
 mongoose.connect("mongodb://localhost:27017/yelp_camp_v6",{ useNewUrlParser: true });
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
@@ -21,17 +21,23 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname + "/public"));
 
-// campgroundList.create({
-//   name: 'camp1',
-//   image: 'https://images.pexels.com/photos/699558/pexels-photo-699558.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260',
-//   description : 'bahbah'
-// },(err,campground)=>{
-//   if(err){
-//     console.log("error add data to mongodb")
-//   }else{
-//     console.log("add data \n"+campground)
-//   }
-// })
+// Passport Config
+app.use(require("express-session")({
+    secret : "YelpCamp Key",
+    resave : false,
+    saveUninitialized : false
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+//================
+//      ROUTE
+//================
 
 app.get('/', (req, res) => {
     res.render('landing');
@@ -124,6 +130,28 @@ app.post("/campgrounds/:id/comments",(req,res)=>{
             });
         }
     });
+});
+
+//=======================
+//    AUTH ROUTE
+//=======================
+
+app.get('/register',(req,res)=>{
+   res.render('register'); 
+});
+
+app.post('/register',(req,res)=>{
+   const _user = new User({username:req.body.username});
+   User.register(_user,req.body.password,(err,user)=>{
+      if(err){
+          console.log(err);
+          res.render('register');
+      } else{
+          passport.authenticate("local")(req,res,()=>{
+                res.redirect("/campgrounds");
+          });
+      }
+   });
 });
 
 app.listen(process.env.PORT, process.env.IP, () => {
