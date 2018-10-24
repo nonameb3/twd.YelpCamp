@@ -24,14 +24,19 @@ router.get('/new', (req, res) => {
 });
 
 // CREATE Route
-router.post('/', (req, res) => {
+router.post('/', isLoggedIn, (req, res) => {
     const name = req.body.name;
     const image = req.body.image;
     const desc = req.body.description;
+    const author = {
+        id: req.user._id,
+        username: req.user.username
+    };
     const newCampground = {
         name,
         image,
-        description: desc
+        description: desc,
+        author: author
     };
 
     campgrounds.create(newCampground, (err, newCampground) => {
@@ -58,5 +63,13 @@ router.get('/:id', (req, res) => {
         }
     });
 });
+
+// Check Auth meddleware
+function isLoggedIn(req,res,next){
+    if(req.isAuthenticated()){
+        return next();
+    }
+    res.redirect('/login');
+}
 
 module.exports = router;

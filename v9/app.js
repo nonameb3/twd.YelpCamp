@@ -19,7 +19,7 @@ const seedDB = require('./seeds');
 //seedDB(); // seed DB
 
 // MongoDB Config
-mongoose.connect("mongodb://localhost:27017/yelp_camp_v8",{ useNewUrlParser: true });
+mongoose.connect("mongodb://localhost:27017/yelp_camp_v9",{ useNewUrlParser: true });
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 app.use(bodyParser.urlencoded({ extended: true }));
