@@ -16,10 +16,10 @@ const   campgroundList = require('./models/campground'),
         Comments = require("./models/comment"),
         User = require('./models/user');
 const seedDB = require('./seeds');
-seedDB();
+//seedDB(); // seed DB
 
 // MongoDB Config
-mongoose.connect("mongodb://localhost:27017/yelp_camp_v6",{ useNewUrlParser: true });
+mongoose.connect("mongodb://localhost:27017/yelp_camp_v8",{ useNewUrlParser: true });
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 app.use(bodyParser.urlencoded({ extended: true }));
