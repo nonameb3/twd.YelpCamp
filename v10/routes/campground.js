@@ -64,6 +64,34 @@ router.get('/:id', (req, res) => {
     });
 });
 
+// Edit Route
+router.get('/:id/edit',(req,res)=>{
+    campgrounds.findOne({_id:req.params.id},(err,campground)=>{
+        if(err){
+            console.log(err);
+            res.redirect('/campgrounds');
+        }else{
+            res.render('campground/edit',{campground:campground});
+        }
+    });
+});
+
+// Update Route
+router.put('/:id',(req,res)=>{
+    campgrounds.findOne({_id:req.params.id},(err,campground)=>{
+       if(err){
+           console.log(err);
+       } else{
+           campground.set(req.body.campground);
+           campground.save();
+           res.redirect('/campgrounds/'+req.params.id);
+       }
+    });
+});
+
+
+
+
 // Check Auth meddleware
 function isLoggedIn(req,res,next){
     if(req.isAuthenticated()){
