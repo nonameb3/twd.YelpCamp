@@ -42,9 +42,12 @@
                             </div>
                         </div>
                         <p> <%= comment.text %></p>
-                        <p>
+                        <% if ( currentUser && currentUser.id == comment.author.id) { %>
                             <a class="btn btn-xs btn-warning" href="/campgrounds/<%= campground._id %>/comments/<%= comment._id %>/edit">Edit</a>
-                        </p>    
+                            <form id="delete-form" action="/campgrounds/<%= campground._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
+                                <button class="btn btn-xs btn-danger">Delete</button>
+                            </form>
+                        <% } %>
                     <% }); %>
                 </div>
             </div>

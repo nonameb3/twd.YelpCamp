@@ -45,7 +45,7 @@ router.post("/",isLoggedIn,(req,res)=>{
 });
 
 // Edit Route
-router.get('/:comment_id/edit',(req,res)=>{
+router.get('/:comment_id/edit', CheckCommentOwner,(req,res)=>{
     comments.findById(req.params.comment_id,(err,comment)=>{
         if(err){
             console.log(err);
@@ -57,7 +57,7 @@ router.get('/:comment_id/edit',(req,res)=>{
 });
 
 // Update Route
-router.put('/:comment_id/edit',(req,res)=>{
+router.put('/:comment_id/edit', CheckCommentOwner,(req,res)=>{
     comments.findByIdAndUpdate(req.params.comment_id,req.body.comment,(err,comment)=>{
         if(err){
             console.log(err);
@@ -68,6 +68,17 @@ router.put('/:comment_id/edit',(req,res)=>{
     });
 });
 
+// Destroy Route
+router.delete('/:comment_id', CheckCommentOwner,(req,res)=>{
+    comments.findByIdAndRemove(req.params.comment_id,(err,comment)=>{
+        if(err){
+            console.log(err);
+            res.redirect('back');
+        }else{
+            res.redirect('/campgrounds/' + req.params.id);
+        }
+    });
+});
 
 // Check Auth meddleware
 function isLoggedIn(req,res,next){
@@ -75,6 +86,28 @@ function isLoggedIn(req,res,next){
         return next();
     }
     res.redirect('/login');
+}
+
+function CheckCommentOwner(req, res, next) {
+    if (req.isAuthenticated()) {
+        comments.findById(req.params.comment_id, (err, comment) => {
+            if (err) {
+                console.log(err);
+                res.redirect('back');
+            }
+            else {
+                if (req.user.id == comment.author.id) {
+                    next();
+                }
+                else {
+                    res.redirect('back');
+                }
+            }
+        });
+    }
+    else {
+        res.redirect('back');
+    }
 }
 
 module.exports = router;
