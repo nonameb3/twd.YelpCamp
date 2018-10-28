@@ -7,8 +7,8 @@ middlewareObj.isLoggedIn = function(req, res, next){
     if (req.isAuthenticated()) {
         return next();
     }
-    req.flash('error','please login first!!');
-    res.redirect('/login');
+    req.flash('error','Please login first!!');
+    res.redirect('back');
 };
 
 middlewareObj.CheckCampgroundOwner = function(req, res, next) {
@@ -16,6 +16,7 @@ middlewareObj.CheckCampgroundOwner = function(req, res, next) {
         campgrounds.findById(req.params.id, (err, campground) => {
             if (err) {
                 console.log(err);
+                req.flash('error','Campground not found!!');
                 res.redirect('back');
             }
             else {
@@ -23,12 +24,14 @@ middlewareObj.CheckCampgroundOwner = function(req, res, next) {
                     next();
                 }
                 else {
+                    req.flash('error',"You don't have permission to do that!!");
                     res.redirect('back');
                 }
             }
         });
     }
     else {
+        req.flash('error','You need to be logged to do that!!');
         res.redirect('back');
     }
 };
@@ -38,6 +41,7 @@ middlewareObj.CheckCommentOwner = function(req, res, next) {
         comments.findById(req.params.comment_id, (err, comment) => {
             if (err) {
                 console.log(err);
+                req.flash('error','Comment not found!!');
                 res.redirect('back');
             }
             else {
@@ -45,12 +49,14 @@ middlewareObj.CheckCommentOwner = function(req, res, next) {
                     next();
                 }
                 else {
+                    req.flash('error',"You don't have permission to do that!!");
                     res.redirect('back');
                 }
             }
         });
     }
     else {
+        req.flash('error','You need to be logged to do that!!');
         res.redirect('back');
     }
 };

@@ -20,7 +20,7 @@ router.get('/', (req, res) => {
 });
 
 // NEW Route
-router.get('/new', (req, res) => {
+router.get('/new', middleware.isLoggedIn, (req, res) => {
     res.render("campground/new");
 });
 
@@ -45,6 +45,7 @@ router.post('/', middleware.isLoggedIn, (req, res) => {
             console.log(err);
         }
         else {
+            req.flash('success','Campground is created!!');
             res.redirect('/campgrounds');
         }
     });
@@ -100,6 +101,7 @@ router.delete('/:id', middleware.CheckCampgroundOwner, (req, res) => {
             res.redirect('/campgrounds');
         }
         else {
+            req.flash('success','Campground is destroyed!!');
             res.redirect('/campgrounds');
         }
     });

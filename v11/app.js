@@ -47,6 +47,8 @@ passport.deserializeUser(User.deserializeUser());
 // User Pass to another page Config
 app.use(function(req,res,next){
     res.locals.currentUser = req.user;
+    res.locals.error = req.flash('error');
+    res.locals.success = req.flash('success');
     next();
 });
 
