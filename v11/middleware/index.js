@@ -8,7 +8,7 @@ middlewareObj.isLoggedIn = function(req, res, next){
         return next();
     }
     req.flash('error','Please login first!!');
-    res.redirect('back');
+    res.redirect('/login');
 };
 
 middlewareObj.CheckCampgroundOwner = function(req, res, next) {
@@ -32,7 +32,7 @@ middlewareObj.CheckCampgroundOwner = function(req, res, next) {
     }
     else {
         req.flash('error','You need to be logged to do that!!');
-        res.redirect('back');
+        res.redirect('/login');
     }
 };
 
@@ -57,7 +57,7 @@ middlewareObj.CheckCommentOwner = function(req, res, next) {
     }
     else {
         req.flash('error','You need to be logged to do that!!');
-        res.redirect('back');
+        res.redirect('/login');
     }
 };
 

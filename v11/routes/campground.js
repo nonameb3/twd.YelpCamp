@@ -28,6 +28,7 @@ router.get('/new', middleware.isLoggedIn, (req, res) => {
 router.post('/', middleware.isLoggedIn, (req, res) => {
     const name = req.body.name;
     const image = req.body.image;
+    const price = req.body.price;
     const desc = req.body.description;
     const author = {
         id: req.user._id,
@@ -37,7 +38,8 @@ router.post('/', middleware.isLoggedIn, (req, res) => {
         name,
         image,
         description: desc,
-        author: author
+        author: author,
+        price: price
     };
 
     campgrounds.create(newCampground, (err, newCampground) => {
