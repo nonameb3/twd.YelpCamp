@@ -21,7 +21,7 @@ const seedDB = require('./seeds');
 //seedDB(); // seed DB
 
 // MongoDB Config
-mongoose.connect("mongodb://localhost:27017/yelp_camp_v11",{ useNewUrlParser: true });
+mongoose.connect("mongodb://localhost:27017/yelp_camp_final",{ useNewUrlParser: true });
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 
