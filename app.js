@@ -17,7 +17,8 @@ const   indexRoute = require('./routes/index');
 const   User = require('./models/user');
 
 // MongoDB Config
-mongoose.connect("mongodb://root:root2727@ds145113.mlab.com:45113/yelpcamp",{ useNewUrlParser: true });
+const dbURL = process.env.DATABASEURL;
+mongoose.connect(dbURL,{ useNewUrlParser: true });
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 
