@@ -14,14 +14,10 @@ const   commentRoute = require('./routes/comment');
 const   indexRoute = require('./routes/index');
 
 // Add Models
-const   campgroundList = require('./models/campground'),
-        Comments = require("./models/comment"),
-        User = require('./models/user');
-const seedDB = require('./seeds');
-//seedDB(); // seed DB
+const   User = require('./models/user');
 
 // MongoDB Config
-mongoose.connect("mongodb://localhost:27017/yelp_camp_final",{ useNewUrlParser: true });
+mongoose.connect("mongodb://root:root2727@ds145113.mlab.com:45113/yelpcamp",{ useNewUrlParser: true });
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 
@@ -62,5 +58,5 @@ app.use('/campgrounds/:id/comments',commentRoute);
 //==============
 
 app.listen(process.env.PORT, process.env.IP, () => {
-    console.log('YelpCamp Server has Start at https://mypjbootcamp-mythk.c9users.io/ !!');
+    console.log('YelpCamp Server has Start');
 });
