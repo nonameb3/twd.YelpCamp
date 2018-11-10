@@ -4,6 +4,13 @@ My NodeJS Project from  - [Colt Steele's Udemy Web Development course.](https://
 
 Click to see - [Live Website](https://protected-waters-30420.herokuapp.com/)
 
+## Features
+- Basic
+    - Create, Edit, Delete and Comment
+- Use GoogleMap API
+- Authentication
+    - User login or sign-up
+    
 ## Technology
 - Bootstrap
 - HTML
