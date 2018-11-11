@@ -24,7 +24,7 @@ router.get('/', (req, res) => {
             console.log(err);
         }
         else {
-            res.render("campground/index", { campgrounds: listcampground, currentUser: req.user });
+            res.render("campground/index", { campgrounds: listcampground, currentUser: req.user, page:'campgrounds' });
         }
     });
 });
