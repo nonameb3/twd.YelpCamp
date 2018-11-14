@@ -10,7 +10,8 @@ Click to see - [Live Website](https://protected-waters-30420.herokuapp.com/)
 - Use GoogleMap API
 - Authentication
     - User login or sign-up
-    
+- Time since
+
 ## Technology
 - Bootstrap
 - HTML
@@ -19,13 +20,15 @@ Click to see - [Live Website](https://protected-waters-30420.herokuapp.com/)
 - MongoDB
 - NodeJS
     - EJS
-    - Mongoose
-    - ExpressJS
-    - Method override
+    - mongoose
+    - express
+    - method override
     - body-parser
     - connect-flash
-    - passportJS
+    - passport
     - express-sanitizer
+    - moment
+    - node-geocoder
     
 ## Platform as a service
  - Heroku

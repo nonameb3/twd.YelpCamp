@@ -8,6 +8,7 @@ const campgroundSchema = new mongoose.Schema({
   location:String,
   lat:Number,
   lng:Number,
+  createDate:{ type:Date , default: Date.now },
   author:{
         id:{
             type: mongoose.Schema.Types.ObjectId,

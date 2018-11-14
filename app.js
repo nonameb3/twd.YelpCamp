@@ -1,5 +1,6 @@
 // Add System
 require('dotenv').config();
+
 const   express = require('express'),
         app = express(),
         bodyParser = require('body-parser'),
@@ -8,7 +9,7 @@ const   express = require('express'),
         mongoose = require('mongoose'),
         passport = require('passport'),
         LocalStrategy = require('passport-local');
-
+        
 // Add Route
 const   campgroundRoute = require('./routes/campground');
 const   commentRoute = require('./routes/comment');
@@ -18,8 +19,8 @@ const   indexRoute = require('./routes/index');
 const   User = require('./models/user');
 
 // MongoDB Config
-const dbURL = process.env.DATABASEURL;
-mongoose.connect(dbURL,{ useNewUrlParser: true });
+const mongodbURL = process.env.DATABASEURL;
+mongoose.connect(mongodbURL,{ useNewUrlParser: true });
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 
@@ -29,6 +30,7 @@ app.set('view engine', 'ejs');
 app.use(express.static(__dirname + "/public"));
 app.use(methodOverride('_method'));
 app.use(flash());
+app.locals.moment = require('moment');
 
 // Passport Config
 app.use(require("express-session")({
