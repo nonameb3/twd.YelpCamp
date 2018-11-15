@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const campgrounds = require('../models/campground');
+const comments = require('../models/comment');
 const middleware = require('../middleware/index');
 const NodeGeocoder = require('node-geocoder');
+const Review = require("../models/review");
  
 const options = {
   provider: 'google',
@@ -35,7 +37,7 @@ router.get('/new', middleware.isLoggedIn, (req, res) => {
 });
 
 //CREATE - add new campground to DB
-router.post("/", middleware.isLoggedIn, function(req, res){
+router.post("/", middleware.isLoggedIn, (req, res) => {
   // get data from form and add to campgrounds array
   var name = req.body.name;
   var image = req.body.image;
@@ -44,7 +46,7 @@ router.post("/", middleware.isLoggedIn, function(req, res){
       id: req.user._id,
       username: req.user.username
   };
-  geocoder.geocode(req.body.location, function (err, data) {
+  geocoder.geocode(req.body.location, (err, data) => {
     if (err || !data.length) {
       console.log(err);
       req.flash('error', 'Invalid address');
@@ -55,7 +57,7 @@ router.post("/", middleware.isLoggedIn, function(req, res){
     var location = data[0].formattedAddress;
     var newCampground = {name: name, image: image, description: desc, author:author, location: location, lat: lat, lng: lng};
     // Create a new campground and save to DB
-    campgrounds.create(newCampground, function(err, newlyCreated){
+    campgrounds.create(newCampground, (err, newlyCreated)=> {
         if(err){
             console.log(err);
         } else {
@@ -69,15 +71,15 @@ router.post("/", middleware.isLoggedIn, function(req, res){
 
 // SHOW Route - show more infomation.
 router.get('/:id', (req, res) => {
-    const _id = req.params.id;
-    // campgroundList.findById(_id).populate("comments").exec(function(err, result) {
-    campgrounds.findOne({ _id: _id }).populate("comments").exec(function(err, result) {
+    campgrounds.findById(req.params.id).populate("comments").populate({
+        path: "reviews",
+        options: {sort: {createdAt: -1}}
+    }).exec(function (err, foundCampground) {
         if (err) {
             console.log(err);
-        }
-        else {
-            //console.log(result);
-            res.render("campground/show", { campground: result });
+        } else {
+            //render show template with that campground
+            res.render("campground/show", {campground: foundCampground});
         }
     });
 });
@@ -96,7 +98,7 @@ router.get('/:id/edit', middleware.CheckCampgroundOwner, (req, res) => {
 });
 
 // UPDATE CAMPGROUND Route
-router.put("/:id", middleware.CheckCampgroundOwner, function(req, res){
+router.put("/:id", middleware.CheckCampgroundOwner, (req, res) => {
   geocoder.geocode(req.body.location, function (err, data) {
     if (err || !data.length) {
       req.flash('error', 'Invalid address');
@@ -120,14 +122,29 @@ router.put("/:id", middleware.CheckCampgroundOwner, function(req, res){
 
 // DESTROY Route
 router.delete('/:id', middleware.CheckCampgroundOwner, (req, res) => {
-    campgrounds.findByIdAndRemove(req.params.id, (err, campground) => {
+    campgrounds.findById(req.params.id, function (err, campground) {
         if (err) {
-            console.log(err);
-            res.redirect('/campgrounds');
-        }
-        else {
-            req.flash('success','Campground is destroyed!!');
-            res.redirect('/campgrounds');
+          console.log(err);
+            res.redirect("/campgrounds");
+        } else {
+            // deletes all comments associated with the campground
+            comments.remove({"_id": {$in: campground.comments}}, function (err) {
+                if (err) {
+                    console.log(err);
+                    return res.redirect("/campgrounds");
+                }
+                // deletes all reviews associated with the campground
+                Review.remove({"_id": {$in: campground.reviews}}, function (err) {
+                    if (err) {
+                        console.log(err);
+                        return res.redirect("/campgrounds");
+                    }
+                    //  delete the campground
+                    campground.remove();
+                    req.flash("success", "Campground deleted successfully!");
+                    res.redirect("/campgrounds");
+                });
+            });
         }
     });
 });

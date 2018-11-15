@@ -14,6 +14,7 @@ const   express = require('express'),
 const   campgroundRoute = require('./routes/campground');
 const   commentRoute = require('./routes/comment');
 const   indexRoute = require('./routes/index');
+const   reviewRoute = require('./routes/reviews');
 
 // Add Models
 const   User = require('./models/user');
@@ -56,6 +57,7 @@ app.use(function(req,res,next){
 app.use('/',indexRoute);
 app.use('/campgrounds',campgroundRoute);
 app.use('/campgrounds/:id/comments',commentRoute);
+app.use("/campgrounds/:id/reviews", reviewRoute);
 
 //==============
 //  start port
