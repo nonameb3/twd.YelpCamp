@@ -16,15 +16,12 @@
             <div class="caption-full">
                 <h4 class="pull-right"><% campground.price %></h4>
                 <h4>
-                    <a>
-                        <%=campground.name%>
-                    </a>
+                    <a><%=campground.name%></a>
                 </h4>
-                <p>
-                    <%= campground.description %>
-                </p>
+                <p><%= campground.description %></p>
                 <p>
                     <em>Submitted By <%= campground.author.username %></em>
+                    <em> ,<%= campground.createDate.toDateString() %></em>
                 </p>
                 <% if(currentUser && (campground.author.id.equals(currentUser._id)||currentUser.admin)){ %>
                     <a class="btn btn-xs btn-warning" href="/campgrounds/<%= campground._id %>/edit">Edit</a>
@@ -194,8 +191,8 @@
         
 <script>
     function initMap() {
-        var lat = << < %= campground.lat % > ;
-        var lng = << < %= campground.lng % > ;
+        var lat = <%= campground.lat %> ;
+        var lng = <%= campground.lng %> ;
         var center = { lat: lat, lng: lng };
         var map = new google.maps.Map(document.getElementById('map'), {
             zoom: 8,

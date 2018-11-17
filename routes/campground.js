@@ -20,7 +20,7 @@ const geocoder = NodeGeocoder(options);
 //================
 
 // INDEX Route
-router.get('/', (req, res) => {
+router.get('/old', (req, res) => {
     campgrounds.find((err, listcampground) => {
         if (err) {
             console.log(err);
@@ -28,6 +28,27 @@ router.get('/', (req, res) => {
         else {
             res.render("campground/index", { campgrounds: listcampground, currentUser: req.user, page:'campgrounds' });
         }
+    });
+});
+
+router.get("/", (req, res)=> {
+    var perPage = 8;
+    var pageQuery = parseInt(req.query.page);
+    var pageNumber = pageQuery ? pageQuery : 1;
+    campgrounds.find({}).sort('-createDate').skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, allCampgrounds) {
+        campgrounds.countDocuments((err,count)=>{
+        	if(err) {
+        		console.log(err);
+        	}
+        	else{
+        		res.render("campground/index", {
+                    campgrounds: allCampgrounds,
+                    current: pageNumber,
+                    pages: Math.ceil(count / perPage),
+                    page:'campgrounds'
+                });
+        	}
+        });
     });
 });
 
