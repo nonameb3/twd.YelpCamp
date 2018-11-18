@@ -10,7 +10,10 @@ Click to see - [Live Website](https://protected-waters-30420.herokuapp.com/)
 - Use GoogleMap API
 - Authentication
     - User login or sign-up
+    - Admin user
 - Time since
+- Ratings and reviews
+- Pagination in campgrounds index
 
 ## Technology
 - Bootstrap
@@ -29,6 +32,7 @@ Click to see - [Live Website](https://protected-waters-30420.herokuapp.com/)
     - express-sanitizer
     - moment
     - node-geocoder
+    - etc.
     
 ## Platform as a service
  - Heroku
