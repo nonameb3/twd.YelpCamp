@@ -1,5 +1,9 @@
 # YelpCamp - NodeJS Technology Web App Development 
 ## By The Web Developer Bootcamp.
+<p align="center">
+    <img src="public/image/homepage.png" width="800" alt="Mybridge Medium">
+</p>
+
 My NodeJS Project from  - [Colt Steele's Udemy Web Development course.](https://www.udemy.com/the-web-developer-bootcamp/)
 
 Click to see - [Live Website](https://protected-waters-30420.herokuapp.com/)
