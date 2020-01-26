@@ -63,6 +63,7 @@ app.use("/campgrounds/:id/reviews", reviewRoute);
 //  start port
 //==============
 
-app.listen(process.env.PORT, process.env.IP, () => {
-    console.log('YelpCamp Server has Start');
+const port = process.env.PORT || 9000;
+app.listen(port, process.env.IP, () => {
+    console.log('YelpCamp Server has start at: ' + port);
 });
